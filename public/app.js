@@ -66,6 +66,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const analyzeDiary = async (id) => {
+        try {
+            const response = await fetch(`${apiUrl}/analyze/${id}`, {
+                method: 'POST'
+            });
+            const result = await response.json();
+            if (result.sentiment && result.feedback) {
+                sentimentEl.textContent = `Sentiment: ${result.sentiment}`;
+                feedbackEl.textContent = `Feedback: ${result.feedback}`;
+            }
+        } catch (error) {
+            console.error('Error analyzing diary:', error);
+        }
+    };
+
     saveDiaryBtn.addEventListener('click', saveDiary);
 
     fetchDiaries();
