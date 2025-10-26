@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Diary</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>AI Diary</h1>
+        <div class="diary-form">
+            <textarea id="diary-content" placeholder="Write your diary here..."></textarea>
+            <button id="save-diary">Save Diary</button>
+        </div>
+        <div class="diaries-list">
+            <h2>My Diaries</h2>
+            <ul id="diaries"></ul>
+        </div>
+        <div class="analysis-result">
+            <h2>Analysis Result</h2>
+            <p id="sentiment"></p>
+            <p id="feedback"></p>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
