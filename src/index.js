@@ -43,6 +43,20 @@ app.get('/diaries', (req, res) => {
     });
 });
 
+app.delete('/diaries/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = 'DELETE FROM diaries WHERE id = ?';
+    db.run(sql, id, function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ error: 'Diary not found' });
+        }
+        res.json({ message: 'Diary deleted successfully', changes: this.changes });
+    });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
