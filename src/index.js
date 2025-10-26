@@ -29,6 +29,20 @@ app.post('/diaries', (req, res) => {
     });
 });
 
+app.get('/diaries', (req, res) => {
+    const sql = "SELECT * FROM diaries ORDER BY created_at DESC";
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            res.status(500).json({ "error": err.message });
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": rows
+        });
+    });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
