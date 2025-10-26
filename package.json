@@ -1,0 +1,25 @@
+{
+  "name": "ai-diary-project",
+  "version": "1.0.0",
+  "description": "🤖 AI 감정 분석 일기장",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Na0927s/ai-diary-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Na0927s/ai-diary-project/issues"
+  },
+  "homepage": "https://github.com/Na0927s/ai-diary-project#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "sqlite3": "^5.1.7"
+  }
+}
