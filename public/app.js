@@ -53,6 +53,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const deleteDiary = async (id) => {
+        try {
+            const response = await fetch(`${apiUrl}/diaries/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                fetchDiaries();
+            }
+        } catch (error) {
+            console.error('Error deleting diary:', error);
+        }
+    };
+
     saveDiaryBtn.addEventListener('click', saveDiary);
 
     fetchDiaries();
