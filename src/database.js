@@ -10,20 +10,25 @@ let db = new sqlite3.Database('./mydatabase.db', (err) => {
 });
 
 const createTable = () => {
-    db.run(`CREATE TABLE IF NOT EXISTS diaries (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        content TEXT NOT NULL,
-        sentiment TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`, (err) => {
-        if (err) {
-            // Table already created
-        }else{
-            // Table just created, creating some rows
-            var insert = 'INSERT INTO diaries (content, sentiment) VALUES (?,?)'
-            db.run(insert, ["What a beautiful day!", "positive"])
-            db.run(insert, ["I'm so tired.", "negative"])
-        }
+    db.serialize(() => {
+        db.run(`CREATE TABLE IF NOT EXISTS diaries (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            content TEXT NOT NULL,
+            sentiment TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )`, (err) => {
+            if (err) {
+                console.error(err.message);
+            }
+        });
+
+        db.run(`ALTER TABLE diaries ADD COLUMN feedback TEXT`, (err) => {
+            if (err) {
+                // ignore if column already exists
+            } else {
+                console.log("Table altered, feedback column added.");
+            }
+        });
     });
 }
 

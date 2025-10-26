@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 const { db, createTable } = require('./database.js');
+const { analyzeSentiment } = require('./geminiService.js');
 
 app.use(cors());
 app.use(express.json());
@@ -54,6 +55,34 @@ app.delete('/diaries/:id', (req, res) => {
             return res.status(404).json({ error: 'Diary not found' });
         }
         res.json({ message: 'Diary deleted successfully', changes: this.changes });
+    });
+});
+
+app.post('/analyze/:id', async (req, res) => {
+    const { id } = req.params;
+    const sql = 'SELECT content FROM diaries WHERE id = ?';
+    db.get(sql, id, async (err, row) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (!row) {
+            return res.status(404).json({ error: 'Diary not found' });
+        }
+
+        try {
+            const analysisResult = await analyzeSentiment(row.content);
+            const [sentiment, feedback] = analysisResult.split('\n');
+
+            const updateSql = 'UPDATE diaries SET sentiment = ?, feedback = ? WHERE id = ?';
+            db.run(updateSql, [sentiment, feedback, id], function(err) {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                }
+                res.json({ id, sentiment, feedback });
+            });
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to analyze sentiment' });
+        }
     });
 });
 
