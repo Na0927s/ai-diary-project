@@ -81,7 +81,8 @@ app.post('/analyze/:id', async (req, res) => {
                 res.json({ id, sentiment, feedback });
             });
         } catch (error) {
-            res.status(500).json({ error: 'Failed to analyze sentiment' });
+            console.error('Error during sentiment analysis:', error);
+            res.status(500).json({ error: 'Failed to analyze sentiment', details: error });
         }
     });
 });
