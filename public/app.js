@@ -32,5 +32,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const saveDiary = async () => {
+        const content = diaryContent.value;
+        if (!content) return;
+
+        try {
+            const response = await fetch(`${apiUrl}/diaries`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ content })
+            });
+            if (response.ok) {
+                diaryContent.value = '';
+                fetchDiaries();
+            }
+        } catch (error) {
+            console.error('Error saving diary:', error);
+        }
+    };
+
+    saveDiaryBtn.addEventListener('click', saveDiary);
+
     fetchDiaries();
 });
